@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Decifrá el código</title>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+    <script src='javascript.js'></script>
+    <link rel="shortcut icon" href="fotos/icono.png">
+    <style>
+        .negro {color: black;}
+        .blanco {color: white;}
+        .cinco {color: rgb(23, 146, 23);}
+        .numeros {width: 20px; text-align: center;font-size: 25px; background-color: rgb(179, 241, 128);
+            border-width: 5px; border-color: black; border-top-left-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 2px; border-top-right-radius: 2px;
+            text-shadow: rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1px; font-family:serif; position: inherit;}
+        .numeros:hover {border: 2px rgb(23, 146, 23) solid;}
+        #botonReset {position: inherit; left: 260px; top: 10px; width: 70px; height: 40px; text-align: center; background-color: rgba(201, 255, 158, 0.75); border-radius: 5px; border: 1px rgb(23, 146, 23) solid; font-family: cursive;}
+        #zonaEscribir {left: 40px;}
+        #titulo {font-size: 40px; font-family: cursive; letter-spacing: 2px; color: rgb(36, 66, 12); text-shadow: rgb(55, 102, 17) -1px 1px 1px, rgb(55, 102, 17) 0.5px -0.5px 1px;position: relative; left: 25px;}
+        .cajaNumeroFinal {color: rgb(116, 116, 116); resize: none; position: inherit; font-size: 24px; width: 34px; height: 50px; text-align: center; border: 2px rgb(201, 255, 158) outset; border-radius: 3px; vertical-align:text-top; top: 0px;}
+        .numeroFinal {vertical-align: top;}
+        ::placeholder {color: rgba(23, 146, 23, 0.5); font-weight: bold;}
+        .numeroCircular {color: white; font-size: 12px; text-align: center; vertical-align: top;}
+        .linea {position: inherit;}
+        body {user-select: none;}
+        .selectorColor {width: 8px; height: 8px; position: inherit;}
+        .selectorNegro {background-color: rgb(0, 0, 0); border: 1px rgb(0, 0, 0) solid; left: 0px; top: 0px;}
+        .selectorVerde {background-color: rgb(23, 146, 23); border: 1px rgb(23, 146, 23) solid; left: 11px; top: 0px;}
+        .selectorBlanco {background-color: rgb(255,255,255); border: rgba(23, 146, 23, 0.5) 1px solid; left: 22px; top: 0px;}
+        .selectorColorFinal {position: inherit; top: 43px; left: 5px;}
+        .selectorFinal {position: inherit; top: 30px;}
+        .selectorColorZonaEscribir {position: inherit; z-index: 2; top: 43px; left: 5px;}
+        .selectorBlancoZonaEscribir {background-color: rgb(255,255,255); border: rgba(23, 146, 23, 0.5) 1px solid; left: 30px;}
+        .selectorNegroZonaEscribir {background-color: rgb(0, 0, 0); border: rgb(0, 0, 0) 1px solid;}
+        .selectorVerdeZonaEscribir {background-color: rgb(23, 146, 23); border: rgb(23, 146, 23) 1px solid; left: 15px;}
+        .selectorNumeroZonaEscribir {position: inherit;}
+        .zonaEscribir {position: inherit; width: 50px; height: 55px; border-right: 1px rgb(0, 0, 0) solid; border-bottom: 1px rgb(0, 0, 0) solid;}
+        .zonaEscribirA {left: 51px;}
+        .zonaEscribirB {left: 102px;}
+        .zonaEscribirC {left: 153px;}
+        .zonaEscribirD {left: 204px;}
+        .zonaEscribirE {left: 255px;}
+        .zonaEscribir3 {background-color: rgb(201, 255, 158); border-bottom: 1px rgba(255, 255, 255, 0) solid;}
+        .nombreJugador {position: inherit; width: 50px; height: 55px; border-right: 1px rgb(0, 0, 0) solid; border-bottom: 1px rgb(0, 0, 0) solid;}
+        .lineaZonaEscribir {position: inherit;}
+        #zonaEscribirLinea1 {top: 40px;}
+        #zonaEscribirLinea2 {top: 96px;}
+        #zonaEscribirLinea3 {top: 152px; background-color: rgb(201, 255, 158);}
+        .escribirNombreJugador {position: inherit; width: 40px; border: 0.5px rgba(255,255,255,0) solid; border-bottom: 1px rgb(116, 116, 116) dotted; top: 35px; z-index: 1; background-color: rgba(255, 255, 255, 0); text-align: center; left: 2px;}
+        .jugador {position: inherit; width: 50px; height: 70px;}
+        .fotoJugador {position: inherit; width: 35px; left: 7.5px; top: 15px;}
+        .selectorNumero {position: inherit; width: 35px; height: 35px; text-align: center; z-index: 1; border: 0px rgba(255,255,255,0) solid; left: 4.5px; top: 2px; font-size: 2em;}
+        .selectorNumero3 {background-color: rgb(201, 255, 158);}
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {-webkit-appearance: none;margin: 0;}
+        .selectorNumero:focus {outline: 2px rgb(23, 146, 23) solid; border-radius: 4px;}
+        #nombreJugador3 {background-color: rgb(201, 255, 158); border-bottom: 1px rgb(201, 255, 158) solid;}
+        .zonaEscribirLibre {position: inherit; left: 307px; height: 55px; width: 110px;}
+        .zonaEscribirTextarea {position: inherit; height: 51px; width: 110px; resize: none; background-image: url(fotos/lupa.png); background-position: 35px; background-repeat: no-repeat; background-size: 50px 40px; border: 0px; border-bottom: 1px rgb(0, 0, 0) solid;}
+        #zonaEscribirLibre3t {background-color: rgb(201, 255, 158); border-bottom: 1px rgb(201, 255, 158) solid;}
+        .lineasJugadores {position: inherit;}
+        .numerosJugadores {position: inherit; border-radius: 50%; height: 18px; width: 18px; text-align: center; vertical-align: middle; color: rgb(255,255,255); z-index: 2; font-family: serif;}
+        .linea2 {position: inherit; background-color: rgb(119, 223, 35); width: 4px; height: 56px; top: 152px; left: 305px;}
+        .linea3 {position: inherit; background-color: rgb(23, 146, 23);}
+        .linea4 {position: inherit; background-color: rgb(0, 0, 0);}
+        .letras {position: inherit; -webkit-text-stroke: 1px rgb(23, 146, 23); font-size: 60px; color: rgb(255,255,255); z-index: 2;}
+    </style>
+</head>
+<body>
+    <div id='todo'>
+        <h1 id='titulo'>Descifrá el código</h1>
+        <div id='numeros' style="position: absolute; top: 100px; left: 60px;">
+            <div class='negro numeros' id='n0' style='left: 0px; top: 0px;'>0</div>
+            <div class='negro numeros' id='n1' style='left: 25px; top: 0px;'>1</div>
+            <div class='negro numeros' id='n2' style='left: 50px; top: 0px;'>2</div>
+            <div class='negro numeros' id='n3' style='left: 75px; top: 0px;'>3</div>
+            <div class='negro numeros' id='n4' style='left: 100px; top: 0px;'>4</div>
+            <div class='cinco numeros' id='n5' style='left: 125px; top: 0px;'>5</div>
+            <div class='negro numeros' id='n6' style='left: 150px; top: 0px;'>6</div>
+            <div class='negro numeros' id='n7' style='left: 175px; top: 0px;'>7</div>
+            <div class='negro numeros' id='n8' style='left: 200px; top: 0px;'>8</div>
+            <div class='negro numeros' id='n9' style='left: 225px; top: 0px;'>9</div>
+            <div class='blanco numeros' id='b0' style='left: 0px; top: 35px;'>0</div>
+            <div class='blanco numeros' id='b1' style='left: 25px; top: 35px;'>1</div>
+            <div class='blanco numeros' id='b2' style='left: 50px; top: 35px;'>2</div>
+            <div class='blanco numeros' id='b3' style='left: 75px; top: 35px;'>3</div>
+            <div class='blanco numeros' id='b4' style='left: 100px; top: 35px;'>4</div>
+            <div class='cinco numeros' id='b5' style='left: 125px; top: 35px;'>5</div>
+            <div class='blanco numeros' id='b6' style='left: 150px; top: 35px;'>6</div>
+            <div class='blanco numeros' id='b7' style='left: 175px; top: 35px;'>7</div>
+            <div class='blanco numeros' id='b8' style='left: 200px; top: 35px;'>8</div>
+            <div class='blanco numeros' id='b9' style='left: 225px; top: 35px;'>9</div>
+            <button type="button" id='botonReset'>Resetear números</button>
+        </div>
+        <div id='codigoFinal' style="position: absolute; left: 440px; top: 80px;">
+            <div id="linea3" class="linea">
+                <div id='linea3linea' style='background-color: rgb(23, 146, 23); position: inherit; top: 4px; left: 0px; width: 220px; height: 3px; border-radius: 2px;'></div>
+                <div class='numeroCircular' id='linea3numero' style='background-color: rgb(23, 146, 23); position: inherit; top: 0px; left: 104px; width: 14px; height: 14px; border-radius: 100%;'>3</div>
+            </div>
+            <div id="linea4" class="linea">
+                <div id='linea4linea' style='background-color: black; position: inherit; top: 18px; left: 0px; width: 175px; height: 3px; border-radius: 2px;'></div>
+                <div class='numeroCircular' id='linea4numero' style='background-color: black; position: inherit; top: 14px; left: 83px; width: 14px; height: 14px; border-radius: 100%;'>4</div>
+            </div>
+            <div id="selectorFinalA" class="selectorFinal" style="left: 0px;">
+                <div class='numeroFinal' id='numeroFinalA'><input type="number" id='zonaNumeroFinalA' class='cajaNumeroFinal' maxlength='1' placeholder='a' min="0" max="9"></input type="text"></div>
+                <div class='selectorColorFinal'><div id='selectorColorNegroA' class='selectorNegro selectorColor'></div><div id='selectorColorVerdeA' class='selectorVerde selectorColor'></div><div id='selectorColorBlancoA' class='selectorBlanco selectorColor'></div></div>
+            </div>
+            <div id="selectorFinalB" class="selectorFinal" style="left: 45px;">
+                <div class='numeroFinal' id='numeroFinalB'><input type="number" id='zonaNumeroFinalB' class='cajaNumeroFinal' maxlength='1' placeholder='b' min="0" max="9"></input type="text"></div>
+                <div class='selectorColorFinal'><div id='selectorColorNegroB' class='selectorNegro selectorColor'></div><div id='selectorColorVerdeB' class='selectorVerde selectorColor'></div><div id='selectorColorBlancoB' class='selectorBlanco selectorColor'></div></div>
+            </div>
+            <div id="selectorFinalC" class="selectorFinal" style="left: 90px;">
+                <div class='numeroFinal' id='numeroFinalC'><input type="number" id='zonaNumeroFinalC' class='cajaNumeroFinal' maxlength='1' placeholder='c' min="0" max="9"></input type="text"></div>
+                <div class='selectorColorFinal'><div id='selectorColorNegroC' class='selectorNegro selectorColor'></div><div id='selectorColorVerdeC' class='selectorVerde selectorColor'></div><div id='selectorColorBlancoC' class='selectorBlanco selectorColor'></div></div>
+            </div>
+            <div id="selectorFinalD" class="selectorFinal" style="left: 135px;">
+                <div class='numeroFinal' id='numeroFinalD'><input type="number" id='zonaNumeroFinalD' class='cajaNumeroFinal' maxlength='1' placeholder='d' min="0" max="9"></input type="text"></div>
+                <div class='selectorColorFinal'><div id='selectorColorNegroD' class='selectorNegro selectorColor'></div><div id='selectorColorVerdeD' class='selectorVerde selectorColor'></div><div id='selectorColorBlancoD' class='selectorBlanco selectorColor'></div></div>
+            </div>
+            <div id="selectorFinalE" class="selectorFinal" style="left: 180px;">
+                <div class='numeroFinal' id='numeroFinalE'><input type="number" id='zonaNumeroFinalE' class='cajaNumeroFinal' maxlength='1' placeholder='e' min="0" max="9"></input type="text"></div>
+                <div class='selectorColorFinal'><div id='selectorColorNegroE' class='selectorNegro selectorColor'></div><div id='selectorColorVerdeE' class='selectorVerde selectorColor'></div><div id='selectorColorBlancoE' class='selectorBlanco selectorColor'></div></div>
+            </div>
+        </div>
+        <div id='zonaEscribir' style="position: absolute; top: 200px; left: 40px;">
+            <div id="letrasZonaEscribir" style="position: inherit;">
+                <div id="letraAZonaEscribir" class="letras" style="left: 65px; top: -20px;">a</div>
+                <div id="letraBZonaEscribir" class="letras" style="left: 115px; top: -20px;">b</div>
+                <div id="letraCZonaEscribir" class="letras" style="left: 165px; top: -20px;">c</div>
+                <div id="letraDZonaEscribir" class="letras" style="left: 215px; top: -20px;">d</div>
+                <div id="letraEZonaEscribir" class="letras" style="left: 265px; top: -20px; -webkit-text-stroke: 1px rgb(201, 255, 158);">e</div>
+            </div>
+            <div id="zonaEscribirLinea1" class="lineaZonaEscribir">
+                <div id="jugador1" class="jugador">
+                    <div id="nombreJugador1" class="nombreJugador">
+                    <input type="text" id="escribirNombreJugador1" class="escribirNombreJugador" maxlength="7">
+                    </div>
+                    <img src="fotos/jugador1.png" id="fotoJugador1" class="fotoJugador">
+                </div>
+                <div id="zonaEscribir1A" class="zonaEscribirA zonaEscribir">
+                    <div id='selectorColorLinea1A' class="selectorColorZonaEscribir">
+                        <div id='selectorColorNegroLinea1A' class='selectorNegroZonaEscribir selectorColor'></div>
+                        <div id='selectorColorVerdeLinea1A' class='selectorVerdeZonaEscribir selectorColor'></div>
+                        <div id='selectorColorBlancoLinea1A' class='selectorBlancoZonaEscribir selectorColor'></div>
+                    </div>
+                    <div id="selectorNumero1A" class="selectorNumeroZonaEscribir">
+                        <input type="number" id="selectorNumero1AInput" class="selectorNumero" min="0" max="9">
+                    </div>
+                </div>
+                <div id="zonaEscribir1B" class="zonaEscribirB zonaEscribir">
+                    <div id='selectorColorLinea1B' class="selectorColorZonaEscribir">
+                        <div id='selectorColorNegroLinea1B' class='selectorNegroZonaEscribir selectorColor'></div>
+                        <div id='selectorColorVerdeLinea1B' class='selectorVerdeZonaEscribir selectorColor'></div>
+                        <div id='selectorColorBlancoLinea1B' class='selectorBlancoZonaEscribir selectorColor'></div>
+                    </div>
+                    <div id="selectorNumero1B" class="selectorNumeroZonaEscribir">
+                        <input type="number" id="selectorNumero1BInput" class="selectorNumero" min="0" max="9">
+                    </div>
+                </div>
+                <div id="zonaEscribir1C" class="zonaEscribirC zonaEscribir">
+                    <div id='selectorColorLinea1C' class="selectorColorZonaEscribir">
+                        <div id='selectorColorNegroLinea1C' class='selectorNegroZonaEscribir selectorColor'></div>
+                        <div id='selectorColorVerdeLinea1C' class='selectorVerdeZonaEscribir selectorColor'></div>
+                        <div id='selectorColorBlancoLinea1C' class='selectorBlancoZonaEscribir selectorColor'></div>
+                    </div>
+                    <div id="selectorNumero1C" class="selectorNumeroZonaEscribir">
+                        <input type="number" id="selectorNumero1CInput" class="selectorNumero" min="0" max="9">
+                    </div>
+                </div>
+                <div id="zonaEscribir1D" class="zonaEscribirD zonaEscribir">
+                    <div id='selectorColorLinea1D' class="selectorColorZonaEscribir">
+                        <div id='selectorColorNegroLinea1D' class='selectorNegroZonaEscribir selectorColor'></div>
+                        <div id='selectorColorVerdeLinea1D' class='selectorVerdeZonaEscribir selectorColor'></div>
+                        <div id='selectorColorBlancoLinea1D' class='selectorBlancoZonaEscribir selectorColor'></div>
+                    </div>
+                    <div id="selectorNumero1D" class="selectorNumeroZonaEscribir">
+                        <input type="number" id="selectorNumero1DInput" class="selectorNumero" min="0" max="9">
+                    </div>
+                </div>
+                <div id="zonaEscribir1E" class="zonaEscribirE zonaEscribir">
+                    <div id='selectorColorLinea1E' class="selectorColorZonaEscribir">
+                        <div id='selectorColorNegroLinea1E' class='selectorNegroZonaEscribir selectorColor'></div>
+                        <div id='selectorColorVerdeLinea1E' class='selectorVerdeZonaEscribir selectorColor'></div>
+                        <div id='selectorColorBlancoLinea1E' class='selectorBlancoZonaEscribir selectorColor'></div>
+                    </div>
+                    <div id="selectorNumero1E" class="selectorNumeroZonaEscribir">
+                        <input type="number" id="selectorNumero1EInput" class="selectorNumero" min="0" max="9">
+                    </div>
+                </div>
+                <div id="zonaEscribirLibre1" class="zonaEscribirLibre">
+                    <textarea id="zonaEscribirLibre1t" class="zonaEscribirTextarea" rows="3"></textarea>
+                </div>
+            </div>
+            <div id="zonaEscribirLinea2" class="lineaZonaEscribir">
+                <div id="nombreJugador2"  class="nombreJugador">
+                        <input type="text" id="escribirNombreJugador2" class="escribirNombreJugador" maxlength="7">
+                        <img src="fotos/jugador2.png" id="fotoJugador2" class="fotoJugador">
+                </div>
+                <div id="zonaEscribir2A" class="zonaEscribirA zonaEscribir">
+                    <div id='selectorColorLinea2A' class="selectorColorZonaEscribir">
+                        <div id='selectorColorNegroLinea2A' class='selectorNegroZonaEscribir selectorColor'></div>
+                        <div id='selectorColorVerdeLinea2A' class='selectorVerdeZonaEscribir selectorColor'></div>
+                        <div id='selectorColorBlancoLinea2A' class='selectorBlancoZonaEscribir selectorColor'></div>
+                    </div>
+                    <div id="selectorNumero2A" class="selectorNumeroZonaEscribir">
+                        <input type="number" id="selectorNumero2AInput" class="selectorNumero" min="0" max="9">
+                    </div>
+                </div>
+                <div id="zonaEscribir2B" class="zonaEscribirB zonaEscribir">
+                    <div id='selectorColorLinea2B' class="selectorColorZonaEscribir">
+                        <div id='selectorColorNegroLinea2B' class='selectorNegroZonaEscribir selectorColor'></div>
+                        <div id='selectorColorVerdeLinea2B' class='selectorVerdeZonaEscribir selectorColor'></div>
+                        <div id='selectorColorBlancoLinea2B' class='selectorBlancoZonaEscribir selectorColor'></div>
+                    </div>
+                    <div id="selectorNumero2B" class="selectorNumeroZonaEscribir">
+                        <input type="number" id="selectorNumero2BInput" class="selectorNumero" min="0" max="9">
+                    </div>
+                </div>
+                <div id="zonaEscribir2C" class="zonaEscribirC zonaEscribir">
+                    <div id='selectorColorLinea2C' class="selectorColorZonaEscribir">
+                        <div id='selectorColorNegroLinea2C' class='selectorNegroZonaEscribir selectorColor'></div>
+                        <div id='selectorColorVerdeLinea2C' class='selectorVerdeZonaEscribir selectorColor'></div>
+                        <div id='selectorColorBlancoLinea2C' class='selectorBlancoZonaEscribir selectorColor'></div>
+                    </div>
+                    <div id="selectorNumero2C" class="selectorNumeroZonaEscribir">
+                        <input type="number" id="selectorNumero2CInput" class="selectorNumero" min="0" max="9">
+                    </div>
+                </div>
+                <div id="zonaEscribir2D" class="zonaEscribirD zonaEscribir">
+                    <div id='selectorColorLinea2D' class="selectorColorZonaEscribir">
+                        <div id='selectorColorNegroLinea2D' class='selectorNegroZonaEscribir selectorColor'></div>
+                        <div id='selectorColorVerdeLinea2D' class='selectorVerdeZonaEscribir selectorColor'></div>
+                        <div id='selectorColorBlancoLinea2D' class='selectorBlancoZonaEscribir selectorColor'></div>
+                    </div>
+                    <div id="selectorNumero2D" class="selectorNumeroZonaEscribir">
+                        <input type="number" id="selectorNumero2DInput" class="selectorNumero" min="0" max="9">
+                    </div>
+                </div>
+                <div id="zonaEscribir2E" class="zonaEscribirE zonaEscribir">
+                    <div id='selectorColorLinea2E' class="selectorColorZonaEscribir">
+                        <div id='selectorColorNegroLinea2E' class='selectorNegroZonaEscribir selectorColor'></div>
+                        <div id='selectorColorVerdeLinea2E' class='selectorVerdeZonaEscribir selectorColor'></div>
+                        <div id='selectorColorBlancoLinea2E' class='selectorBlancoZonaEscribir selectorColor'></div>
+                    </div>
+                    <div id="selectorNumero2E" class="selectorNumeroZonaEscribir">
+                        <input type="number" id="selectorNumero2EInput" class="selectorNumero" min="0" max="9">
+                    </div>
+                </div>
+                <div id="zonaEscribirLibre2" class="zonaEscribirLibre">
+                    <textarea id="zonaEscribirLibre2t" class="zonaEscribirTextarea" rows="4"></textarea>
+                </div>
+            </div>
+            <div id="zonaEscribirLinea3" class="lineaZonaEscribir">
+                <div id="nombreJugador3"  class="nombreJugador">
+                    <input type="text" id="escribirNombreJugador3" class="escribirNombreJugador" maxlength="7">
+                    <img src="fotos/jugador3.png" id="fotoJugador3" class="fotoJugador">
+                </div>
+                <div id="zonaEscribir3A" class="zonaEscribirA zonaEscribir3 zonaEscribir">
+                    <div id='selectorColorLinea3A' class="selectorColorZonaEscribir">
+                        <div id='selectorColorNegroLinea3A' class='selectorNegroZonaEscribir selectorColor'></div>
+                        <div id='selectorColorVerdeLinea3A' class='selectorVerdeZonaEscribir selectorColor'></div>
+                        <div id='selectorColorBlancoLinea3A' class='selectorBlancoZonaEscribir selectorColor'></div>
+                    </div>
+                    <div id="selectorNumero3A" class="selectorNumeroZonaEscribir selectorNumero3">
+                        <input type="number" id="selectorNumero3AInput" class="selectorNumero selectorNumero3" min="0" max="9">
+                    </div>
+                </div>
+                <div id="zonaEscribir3B" class="zonaEscribirB zonaEscribir3 zonaEscribir">
+                    <div id='selectorColorLinea3B' class="selectorColorZonaEscribir">
+                        <div id='selectorColorNegroLinea3B' class='selectorNegroZonaEscribir selectorColor'></div>
+                        <div id='selectorColorVerdeLinea3B' class='selectorVerdeZonaEscribir selectorColor'></div>
+                        <div id='selectorColorBlancoLinea3B' class='selectorBlancoZonaEscribir selectorColor'></div>
+                    </div>
+                    <div id="selectorNumero3B" class="selectorNumeroZonaEscribir selectorNumero3">
+                        <input type="number" id="selectorNumero3BInput" class="selectorNumero selectorNumero3" min="0" max="9">
+                    </div>
+                </div>
+                <div id="zonaEscribir3C" class="zonaEscribirC zonaEscribir3 zonaEscribir">
+                    <div id='selectorColorLinea3C' class="selectorColorZonaEscribir">
+                        <div id='selectorColorNegroLinea3C' class='selectorNegroZonaEscribir selectorColor'></div>
+                        <div id='selectorColorVerdeLinea3C' class='selectorVerdeZonaEscribir selectorColor'></div>
+                        <div id='selectorColorBlancoLinea3C' class='selectorBlancoZonaEscribir selectorColor'></div>
+                    </div>
+                    <div id="selectorNumero3C" class="selectorNumeroZonaEscribir selectorNumero3">
+                        <input type="number" id="selectorNumero3CInput" class="selectorNumero selectorNumero3" min="0" max="9">
+                    </div>
+                </div>
+                <div id="zonaEscribir3D" class="zonaEscribirD zonaEscribir3 zonaEscribir">
+                    <div id='selectorColorLinea3D' class="selectorColorZonaEscribir">
+                        <div id='selectorColorNegroLinea3D' class='selectorNegroZonaEscribir selectorColor'></div>
+                        <div id='selectorColorVerdeLinea3D' class='selectorVerdeZonaEscribir selectorColor'></div>
+                        <div id='selectorColorBlancoLinea3D' class='selectorBlancoZonaEscribir selectorColor'></div>
+                    </div>
+                    <div id="selectorNumero3D" class="selectorNumeroZonaEscribir selectorNumero3">
+                        <input type="number" id="selectorNumero3DInput" class="selectorNumero selectorNumero3" min="0" max="9">
+                    </div>
+                </div>
+                <div id="zonaEscribir3E" class="zonaEscribirE zonaEscribir3 zonaEscribir ">
+                    <div id='selectorColorLinea3E' class="selectorColorZonaEscribir">
+                        <div id='selectorColorNegroLinea3E' class='selectorNegroZonaEscribir selectorColor'></div>
+                        <div id='selectorColorVerdeLinea3E' class='selectorVerdeZonaEscribir selectorColor'></div>
+                        <div id='selectorColorBlancoLinea3E' class='selectorBlancoZonaEscribir selectorColor'></div>
+                    </div>
+                    <div id="selectorNumero3E" class="selectorNumeroZonaEscribir selectorNumero3">
+                        <input type="number" id="selectorNumero3EInput" class="selectorNumero selectorNumero3" min="0" max="9">
+                    </div>
+                </div>
+                <div id="zonaEscribirLibre3" class="zonaEscribirLibre">
+                    <textarea id="zonaEscribirLibre3t" class="zonaEscribirTextarea" rows="4"></textarea>
+                </div>
+            </div>
+            <div id="jugadores3" class="lineasJugadores">
+                <div id="jugadores3LineaH" class="linea3" style="height: 4px; width: 306px; top: 33px; left: 1px;"></div>
+                <div id="jugadores3Numero" class="numerosJugadores" style="background-color: rgb(23, 146, 23); left: 300px; top: 27px;">3</div> 
+                <div id="jugadores3LineaV" class="linea3" style="height: 118px; width: 4px; left: 305px; top: 33px; border-bottom: 1px rgb(0, 0, 0) solid;"></div>
+            </div>
+            <div id="jugadores4" class="lineasJugadores">
+                <div id="jugadores4LineaV" class="linea4" style="height: 176px; width: 4px; top: 36px; left: -8px;"></div>
+                <div id="jugadores4Numero" class="numerosJugadores" style="background-color: rgb(0, 0, 0); top: 210px; left: -15px; vertical-align: top; text-align: center;">4</div>
+                <div id="jugadores4LineaH" class="linea4" style="height: 4px; width: 252px; top: 213px;"></div>
+            </div>
+            <div id="jugadores2" class="lineasJugadores">
+                <div id="jugadores2Linea" class="linea2"></div>
+                <div id="jugadores2Numero" class="numerosJugadores" style="background-color: rgb(119, 223, 35); left: 298px; top: 171px; height: 17px; width: 17px;">2</div>
+            </div>
+        </div>
+    </div>    
+</body>
+</html>
+<script>
+    $(document).ready(function() {
+        $('#n0').click(function(){
+            $('#n0').css({'opacity':0.3});
+        });
+        $('#n1').click(function(){
+            $('#n1').css({'opacity':0.3});
+        });
+        $('#n2').click(function(){
+            $('#n2').css({'opacity':0.3});
+        });
+        $('#n3').click(function(){
+            $('#n3').css({'opacity':0.3});
+        });
+        $('#n4').click(function(){
+            $('#n4').css({'opacity':0.3});
+        });
+        $('#n5').click(function(){
+            $('#n5').css({'opacity':0.3});
+        });
+        $('#n6').click(function(){
+            $('#n6').css({'opacity':0.3});
+        });
+        $('#n7').click(function(){
+            $('#n7').css({'opacity':0.3});
+        });
+        $('#n8').click(function(){
+            $('#n8').css({'opacity':0.3});
+        });
+        $('#n9').click(function(){
+            $('#n9').css({'opacity':0.3});
+        });
+        $('#b0').click(function(){
+            $('#b0').css({'opacity':0.3});
+        });
+        $('#b1').click(function(){
+            $('#b1').css({'opacity':0.3});
+        });
+        $('#b2').click(function(){
+            $('#b2').css({'opacity':0.3});
+        });
+        $('#b3').click(function(){
+            $('#b3').css({'opacity':0.3});
+        });
+        $('#b4').click(function(){
+            $('#b4').css({'opacity':0.3});
+        });
+        $('#b5').click(function(){
+            $('#b5').css({'opacity':0.3});
+        });
+        $('#b6').click(function(){
+            $('#b6').css({'opacity':0.3});
+        });
+        $('#b7').click(function(){
+            $('#b7').css({'opacity':0.3});
+        });
+        $('#b8').click(function(){
+            $('#b8').css({'opacity':0.3});
+        });
+        $('#b9').click(function(){
+            $('#b9').css({'opacity':0.3});
+        });
+        $('#botonReset').click(function(){
+            $('.numeros').css({'opacity':1});
+        });
+        $('#selectorColorNegroA').click(function(){
+            $('#zonaNumeroFinalA').css({'color':'rgb(0,0,0)' , 'text-shadow':'none'});
+            $('#selectorColorVerdeA').css({'opacity':'0.1'});
+            $('#selectorColorBlancoA').css({'opacity':'0.3'});
+            $('#selectorColorNegroA').css({'opacity':'1'});
+        });
+        $('#selectorColorBlancoA').click(function(){
+            $('#zonaNumeroFinalA').css({'color':'rgb(255,255,255)','text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeA').css({'opacity':'0.1'});
+            $('#selectorColorNegroA').css({'opacity':'0.1'});
+            $('#selectorColorBlancoA').css({'opacity':1});
+        });
+        $('#selectorColorVerdeA').click(function(){
+            let contenidoTextoA = $('#zonaNumeroFinalA').val();
+            if (contenidoTextoA == '5'){
+                $('#zonaNumeroFinalA').css({'color':'rgb(23,146,23)' , 'text-shadow':'none'});
+                $('#selectorColorBlancoA').css({'opacity':'0.3'});
+                $('#selectorColorNegroA').css({'opacity':'0.1'});
+                $('#selectorColorVerdeA').css({'opacity':1});
+            };
+        });
+        $('#selectorColorNegroB').click(function(){
+            $('#zonaNumeroFinalB').css({'color':'rgb(0,0,0)' , 'text-shadow':'none'});
+            $('#selectorColorVerdeB').css({'opacity':'0.1'});
+            $('#selectorColorBlancoB').css({'opacity':'0.3'});
+            $('#selectorColorNegroB').css({'opacity':'1'});
+        });
+        $('#selectorColorBlancoB').click(function(){
+            $('#zonaNumeroFinalB').css({'color':'rgb(255,255,255)','text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeB').css({'opacity':'0.1'});
+            $('#selectorColorNegroB').css({'opacity':'0.1'});
+            $('#selectorColorBlancoB').css({'opacity':1});
+        });
+        $('#selectorColorVerdeB').click(function(){
+            let contenidoTextoB = $('#zonaNumeroFinalB').val();
+            if (contenidoTextoB == '5'){
+                $('#zonaNumeroFinalB').css({'color':'rgb(23,146,23)' , 'text-shadow':'none'});
+                $('#selectorColorBlancoB').css({'opacity':'0.1'});
+                $('#selectorColorNegroB').css({'opacity':'0.1'});
+                $('#selectorColorVerdeB').css({'opacity':1});
+            };
+        });
+        $('#selectorColorNegroC').click(function(){
+            $('#zonaNumeroFinalC').css({'color':'rgb(0,0,0)' , 'text-shadow':'none'});
+            $('#selectorColorVerdeC').css({'opacity':'0.1'});
+            $('#selectorColorBlancoC').css({'opacity':'0.3'});
+            $('#selectorColorNegroC').css({'opacity':'1'});
+        });
+        $('#selectorColorBlancoC').click(function(){
+            $('#zonaNumeroFinalC').css({'color':'rgb(255,255,255)','text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeC').css({'opacity':'0.1'});
+            $('#selectorColorNegroC').css({'opacity':'0.1'});
+            $('#selectorColorBlancoC').css({'opacity':1});
+        });
+        $('#selectorColorVerdeC').click(function(){
+            let contenidoTextoC = $('#zonaNumeroFinalC').val();
+            if (contenidoTextoC == '5'){
+                $('#zonaNumeroFinalC').css({'color':'rgb(23,146,23)' , 'text-shadow':'none'});
+                $('#selectorColorBlancoC').css({'opacity':'0.1'});
+                $('#selectorColorNegroC').css({'opacity':'0.1'});
+                $('#selectorColorVerdeC').css({'opacity':1});
+            };
+        });
+        $('#selectorColorNegroD').click(function(){
+            $('#zonaNumeroFinalD').css({'color':'rgb(0,0,0)' , 'text-shadow':'none'});
+            $('#selectorColorVerdeD').css({'opacity':'0.1'});
+            $('#selectorColorBlancoD').css({'opacity':'0.3'});
+            $('#selectorColorNegroD').css({'opacity':'1'});
+        });
+        $('#selectorColorBlancoD').click(function(){
+            $('#zonaNumeroFinalD').css({'color':'rgb(255,255,255)','text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeD').css({'opacity':'0.1'});
+            $('#selectorColorNegroD').css({'opacity':'0.1'});
+            $('#selectorColorBlancoD').css({'opacity':1});
+        });
+        $('#selectorColorVerdeD').click(function(){
+            let contenidoTextoD = $('#zonaNumeroFinalD').val();
+            if (contenidoTextoD == 5){
+                $('#zonaNumeroFinalD').css({'color':'rgb(23,146,23)' , 'text-shadow':'none'});
+                $('#selectorColorBlancoD').css({'opacity':'0.1'});
+                $('#selectorColorNegroD').css({'opacity':'0.1'});
+                $('#selectorColorVerdeD').css({'opacity':1});
+            };
+        });
+        $('#selectorColorNegroE').click(function(){
+            $('#zonaNumeroFinalE').css({'color':'rgb(0,0,0)' , 'text-shadow':'none'});
+            $('#selectorColorVerdeE').css({'opacity':'0.1'});
+            $('#selectorColorBlancoE').css({'opacity':'0.3'});
+            $('#selectorColorNegroE').css({'opacity':'1'});
+        });
+        $('#selectorColorBlancoE').click(function(){
+            $('#zonaNumeroFinalE').css({'color':'rgb(255,255,255)','text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeE').css({'opacity':'0.1'});
+            $('#selectorColorNegroE').css({'opacity':'0.1'});
+            $('#selectorColorBlancoE').css({'opacity':1});
+        });
+        $('#selectorColorVerdeE').click(function(){
+            let contenidoTextoE = $('#zonaNumeroFinalE').val();
+            if (contenidoTextoE == '5'){
+                $('#zonaNumeroFinalE').css({'color':'rgb(23,146,23)' , 'text-shadow':'none'});
+                $('#selectorColorBlancoE').css({'opacity':'0.1'});
+                $('#selectorColorNegroE').css({'opacity':'0.1'});
+                $('#selectorColorVerdeE').css({'opacity':1});
+            };
+        });
+        $('#selectorColorNegroLinea1A').click(function(){
+            $('#selectorNumero1AInput').css({'color':'black', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea1A').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea1A').css({'opacity':0.3});
+            $('#selectorColorNegroLinea1A').css({'opacity':1});
+        });
+        $('#selectorColorVerdeLinea1A').click(function(){
+            $('#selectorNumero1AInput').css({'color':'rgb(23,146,23)', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea1A').css({'opacity':1});
+            $('#selectorColorBlancoLinea1A').css({'opacity':0.3});
+            $('#selectorColorNegroLinea1A').css({'opacity':0.1});
+        });
+        $('#selectorColorBlancoLinea1A').click(function(){
+            $('#selectorNumero1AInput').css({'color':'white', 'text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeLinea1A').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea1A').css({'opacity':1});
+            $('#selectorColorNegroLinea1A').css({'opacity':0.1});
+        });
+        $('#selectorColorNegroLinea1B').click(function(){
+            $('#selectorNumero1BInput').css({'color':'black', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea1B').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea1B').css({'opacity':0.3});
+            $('#selectorColorNegroLinea1B').css({'opacity':1});
+        });
+        $('#selectorColorVerdeLinea1B').click(function(){
+            $('#selectorNumero1BInput').css({'color':'rgb(23,146,23)', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea1B').css({'opacity':1});
+            $('#selectorColorBlancoLinea1B').css({'opacity':0.3});
+            $('#selectorColorNegroLinea1B').css({'opacity':0.1});
+        });
+        $('#selectorColorBlancoLinea1B').click(function(){
+            $('#selectorNumero1BInput').css({'color':'white', 'text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeLinea1B').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea1B').css({'opacity':1});
+            $('#selectorColorNegroLinea1B').css({'opacity':0.1});
+        });
+        $('#selectorColorNegroLinea1C').click(function(){
+            $('#selectorNumero1CInput').css({'color':'black', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea1C').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea1C').css({'opacity':0.3});
+            $('#selectorColorNegroLinea1C').css({'opacity':1});
+        });
+        $('#selectorColorVerdeLinea1C').click(function(){
+            $('#selectorNumero1CInput').css({'color':'rgb(23,146,23)', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea1C').css({'opacity':1});
+            $('#selectorColorBlancoLinea1C').css({'opacity':0.3});
+            $('#selectorColorNegroLinea1C').css({'opacity':0.1});
+        });
+        $('#selectorColorBlancoLinea1C').click(function(){
+            $('#selectorNumero1CInput').css({'color':'white', 'text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeLinea1C').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea1C').css({'opacity':1});
+            $('#selectorColorNegroLinea1C').css({'opacity':0.1});
+        });
+        $('#selectorColorNegroLinea1D').click(function(){
+            $('#selectorNumero1DInput').css({'color':'black', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea1D').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea1D').css({'opacity':0.3});
+            $('#selectorColorNegroLinea1D').css({'opacity':1});
+        });
+        $('#selectorColorVerdeLinea1D').click(function(){
+            $('#selectorNumero1DInput').css({'color':'rgb(23,146,23)', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea1D').css({'opacity':1});
+            $('#selectorColorBlancoLinea1D').css({'opacity':0.3});
+            $('#selectorColorNegroLinea1D').css({'opacity':0.1});
+        });
+        $('#selectorColorBlancoLinea1D').click(function(){
+            $('#selectorNumero1DInput').css({'color':'white', 'text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeLinea1D').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea1D').css({'opacity':1});
+            $('#selectorColorNegroLinea1D').css({'opacity':0.1});
+        });
+        $('#selectorColorNegroLinea1E').click(function(){
+            $('#selectorNumero1EInput').css({'color':'black', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea1E').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea1E').css({'opacity':0.3});
+            $('#selectorColorNegroLinea1E').css({'opacity':1});
+        });
+        $('#selectorColorVerdeLinea1E').click(function(){
+            $('#selectorNumero1EInput').css({'color':'rgb(23,146,23)', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea1E').css({'opacity':1});
+            $('#selectorColorBlancoLinea1E').css({'opacity':0.3});
+            $('#selectorColorNegroLinea1E').css({'opacity':0.1});
+        });
+        $('#selectorColorBlancoLinea1E').click(function(){
+            $('#selectorNumero1EInput').css({'color':'white', 'text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeLinea1E').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea1E').css({'opacity':1});
+            $('#selectorColorNegroLinea1E').css({'opacity':0.1});
+        });
+        $('#selectorColorNegroLinea2A').click(function(){
+            $('#selectorNumero2AInput').css({'color':'black', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea2A').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea2A').css({'opacity':0.3});
+            $('#selectorColorNegroLinea2A').css({'opacity':1});
+        });
+        $('#selectorColorVerdeLinea2A').click(function(){
+            $('#selectorNumero2AInput').css({'color':'rgb(23,146,23)', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea2A').css({'opacity':1});
+            $('#selectorColorBlancoLinea2A').css({'opacity':0.3});
+            $('#selectorColorNegroLinea2A').css({'opacity':0.1});
+        });
+        $('#selectorColorBlancoLinea2A').click(function(){
+            $('#selectorNumero2AInput').css({'color':'white', 'text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeLinea2A').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea2A').css({'opacity':1});
+            $('#selectorColorNegroLinea2A').css({'opacity':0.1});
+        });
+        $('#selectorColorNegroLinea2B').click(function(){
+            $('#selectorNumero2BInput').css({'color':'black', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea2B').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea2B').css({'opacity':0.3});
+            $('#selectorColorNegroLinea2B').css({'opacity':1});
+        });
+        $('#selectorColorVerdeLinea2B').click(function(){
+            $('#selectorNumero2BInput').css({'color':'rgb(23,146,23)', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea2B').css({'opacity':1});
+            $('#selectorColorBlancoLinea2B').css({'opacity':0.3});
+            $('#selectorColorNegroLinea2B').css({'opacity':0.1});
+        });
+        $('#selectorColorBlancoLinea2B').click(function(){
+            $('#selectorNumero2BInput').css({'color':'white', 'text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeLinea2B').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea2B').css({'opacity':1});
+            $('#selectorColorNegroLinea2B').css({'opacity':0.1});
+        });
+        $('#selectorColorNegroLinea2C').click(function(){
+            $('#selectorNumero2CInput').css({'color':'black', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea2C').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea2C').css({'opacity':0.3});
+            $('#selectorColorNegroLinea2C').css({'opacity':1});
+        });
+        $('#selectorColorVerdeLinea2C').click(function(){
+            $('#selectorNumero2CInput').css({'color':'rgb(23,146,23)', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea2C').css({'opacity':1});
+            $('#selectorColorBlancoLinea2C').css({'opacity':0.3});
+            $('#selectorColorNegroLinea2C').css({'opacity':0.1});
+        });
+        $('#selectorColorBlancoLinea2C').click(function(){
+            $('#selectorNumero2CInput').css({'color':'white', 'text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeLinea2C').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea2C').css({'opacity':1});
+            $('#selectorColorNegroLinea2C').css({'opacity':0.1});
+        });
+        $('#selectorColorNegroLinea2D').click(function(){
+            $('#selectorNumero2DInput').css({'color':'black', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea2D').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea2D').css({'opacity':0.3});
+            $('#selectorColorNegroLinea2D').css({'opacity':1});
+        });
+        $('#selectorColorVerdeLinea2D').click(function(){
+            $('#selectorNumero2DInput').css({'color':'rgb(23,146,23)', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea2D').css({'opacity':1});
+            $('#selectorColorBlancoLinea2D').css({'opacity':0.3});
+            $('#selectorColorNegroLinea2D').css({'opacity':0.1});
+        });
+        $('#selectorColorBlancoLinea2D').click(function(){
+            $('#selectorNumero2DInput').css({'color':'white', 'text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeLinea2D').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea2D').css({'opacity':1});
+            $('#selectorColorNegroLinea2D').css({'opacity':0.1});
+        });
+        $('#selectorColorNegroLinea2E').click(function(){
+            $('#selectorNumero2EInput').css({'color':'black', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea2E').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea2E').css({'opacity':0.3});
+            $('#selectorColorNegroLinea2E').css({'opacity':1});
+        });
+        $('#selectorColorVerdeLinea2E').click(function(){
+            $('#selectorNumero2EInput').css({'color':'rgb(23,146,23)', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea2E').css({'opacity':1});
+            $('#selectorColorBlancoLinea2E').css({'opacity':0.3});
+            $('#selectorColorNegroLinea2E').css({'opacity':0.1});
+        });
+        $('#selectorColorBlancoLinea2E').click(function(){
+            $('#selectorNumero2EInput').css({'color':'white', 'text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeLinea2E').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea2E').css({'opacity':1});
+            $('#selectorColorNegroLinea2E').css({'opacity':0.1});
+        });
+        $('#selectorColorNegroLinea3A').click(function(){
+            $('#selectorNumero3AInput').css({'color':'black', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea3A').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea3A').css({'opacity':0.3});
+            $('#selectorColorNegroLinea3A').css({'opacity':1});
+        });
+        $('#selectorColorVerdeLinea3A').click(function(){
+            $('#selectorNumero3AInput').css({'color':'rgb(23,146,23)', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea3A').css({'opacity':1});
+            $('#selectorColorBlancoLinea3A').css({'opacity':0.3});
+            $('#selectorColorNegroLinea3A').css({'opacity':0.1});
+        });
+        $('#selectorColorBlancoLinea3A').click(function(){
+            $('#selectorNumero3AInput').css({'color':'white', 'text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeLinea3A').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea3A').css({'opacity':1});
+            $('#selectorColorNegroLinea3A').css({'opacity':0.1});
+        });
+        $('#selectorColorNegroLinea3B').click(function(){
+            $('#selectorNumero3BInput').css({'color':'black', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea3B').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea3B').css({'opacity':0.3});
+            $('#selectorColorNegroLinea3B').css({'opacity':1});
+        });
+        $('#selectorColorVerdeLinea3B').click(function(){
+            $('#selectorNumero3BInput').css({'color':'rgb(23,146,23)', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea3B').css({'opacity':1});
+            $('#selectorColorBlancoLinea3B').css({'opacity':0.3});
+            $('#selectorColorNegroLinea3B').css({'opacity':0.1});
+        });
+        $('#selectorColorBlancoLinea3B').click(function(){
+            $('#selectorNumero3BInput').css({'color':'white', 'text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeLinea3B').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea3B').css({'opacity':1});
+            $('#selectorColorNegroLinea3B').css({'opacity':0.1});
+        });
+        $('#selectorColorNegroLinea3C').click(function(){
+            $('#selectorNumero3CInput').css({'color':'black', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea3C').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea3C').css({'opacity':0.3});
+            $('#selectorColorNegroLinea3C').css({'opacity':1});
+        });
+        $('#selectorColorVerdeLinea3C').click(function(){
+            $('#selectorNumero3CInput').css({'color':'rgb(23,146,23)', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea3C').css({'opacity':1});
+            $('#selectorColorBlancoLinea3C').css({'opacity':0.3});
+            $('#selectorColorNegroLinea3C').css({'opacity':0.1});
+        });
+        $('#selectorColorBlancoLinea3C').click(function(){
+            $('#selectorNumero3CInput').css({'color':'white', 'text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeLinea3C').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea3C').css({'opacity':1});
+            $('#selectorColorNegroLinea3C').css({'opacity':0.1});
+        });
+        $('#selectorColorNegroLinea3D').click(function(){
+            $('#selectorNumero3DInput').css({'color':'black', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea3D').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea3D').css({'opacity':0.3});
+            $('#selectorColorNegroLinea3D').css({'opacity':1});
+        });
+        $('#selectorColorVerdeLinea3D').click(function(){
+            $('#selectorNumero3DInput').css({'color':'rgb(23,146,23)', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea3D').css({'opacity':1});
+            $('#selectorColorBlancoLinea3D').css({'opacity':0.3});
+            $('#selectorColorNegroLinea3D').css({'opacity':0.1});
+        });
+        $('#selectorColorBlancoLinea3D').click(function(){
+            $('#selectorNumero3DInput').css({'color':'white', 'text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeLinea3D').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea3D').css({'opacity':1});
+            $('#selectorColorNegroLinea3D').css({'opacity':0.1});
+        });
+        $('#selectorColorNegroLinea3E').click(function(){
+            $('#selectorNumero3EInput').css({'color':'black', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea3E').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea3E').css({'opacity':0.3});
+            $('#selectorColorNegroLinea3E').css({'opacity':1});
+        });
+        $('#selectorColorVerdeLinea3E').click(function(){
+            $('#selectorNumero3EInput').css({'color':'rgb(23,146,23)', 'text-shadow':'none'});
+            $('#selectorColorVerdeLinea3E').css({'opacity':1});
+            $('#selectorColorBlancoLinea3E').css({'opacity':0.3});
+            $('#selectorColorNegroLinea3E').css({'opacity':0.1});
+        });
+        $('#selectorColorBlancoLinea3E').click(function(){
+            $('#selectorNumero3EInput').css({'color':'white', 'text-shadow':'rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1.5px'});
+            $('#selectorColorVerdeLinea3E').css({'opacity':0.1});
+            $('#selectorColorBlancoLinea3E').css({'opacity':1});
+            $('#selectorColorNegroLinea3E').css({'opacity':0.1});
+        });
+    });
+</script>
