@@ -1,0 +1,56 @@
+.negro {color: black;}
+.blanco {color: white;}
+.cinco {color: rgb(23, 146, 23);}
+.numeros {width: 20px; text-align: center;font-size: 25px; background-color: rgb(179, 241, 128);
+    border-width: 5px; border-color: black; border-top-left-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 2px; border-top-right-radius: 2px;
+    text-shadow: rgb(119, 223, 35) 1px 1px 0.5px, rgb(55, 102, 17) 0 0 1px; font-family:serif; position: inherit;}
+.numeros:hover {border: 2px rgb(23, 146, 23) solid;}
+#botonReset {position: inherit; left: 260px; top: 10px; width: 70px; height: 40px; text-align: center; background-color: rgba(201, 255, 158, 0.75); border-radius: 5px; border: 1px rgb(23, 146, 23) solid; font-family: cursive;}
+#zonaEscribir {left: 40px;}
+#titulo {font-size: 40px; font-family: cursive; letter-spacing: 2px; color: rgb(36, 66, 12); text-shadow: rgb(55, 102, 17) -1px 1px 1px, rgb(55, 102, 17) 0.5px -0.5px 1px;position: relative; left: 25px;}
+.cajaNumeroFinal {color: rgb(116, 116, 116); resize: none; position: inherit; font-size: 24px; width: 34px; height: 50px; text-align: center; border: 2px rgb(201, 255, 158) outset; border-radius: 3px; vertical-align:text-top; top: 0px;}
+.numeroFinal {vertical-align: top;}
+::placeholder {color: rgba(23, 146, 23, 0.5); font-weight: bold;}
+.numeroCircular {color: white; font-size: 12px; text-align: center; vertical-align: top;}
+.linea {position: inherit;}
+body {user-select: none;}
+.selectorColor {width: 8px; height: 8px; position: inherit;}
+.selectorNegro {background-color: rgb(0, 0, 0); border: 1px rgb(0, 0, 0) solid; left: 0px; top: 0px;}
+.selectorVerde {background-color: rgb(23, 146, 23); border: 1px rgb(23, 146, 23) solid; left: 11px; top: 0px;}
+.selectorBlanco {background-color: rgb(255,255,255); border: rgba(23, 146, 23, 0.5) 1px solid; left: 22px; top: 0px;}
+.selectorColorFinal {position: inherit; top: 43px; left: 5px;}
+.selectorFinal {position: inherit; top: 30px;}
+.selectorColorZonaEscribir {position: inherit; z-index: 2; top: 43px; left: 5px;}
+.selectorBlancoZonaEscribir {background-color: rgb(255,255,255); border: rgba(23, 146, 23, 0.5) 1px solid; left: 30px;}
+.selectorNegroZonaEscribir {background-color: rgb(0, 0, 0); border: rgb(0, 0, 0) 1px solid;}
+.selectorVerdeZonaEscribir {background-color: rgb(23, 146, 23); border: rgb(23, 146, 23) 1px solid; left: 15px;}
+.selectorNumeroZonaEscribir {position: inherit;}
+.zonaEscribir {position: inherit; width: 50px; height: 55px; border-right: 1px rgb(0, 0, 0) solid; border-bottom: 1px rgb(0, 0, 0) solid;}
+.zonaEscribirA {left: 51px;}
+.zonaEscribirB {left: 102px;}
+.zonaEscribirC {left: 153px;}
+.zonaEscribirD {left: 204px;}
+.zonaEscribirE {left: 255px;}
+.zonaEscribir3 {background-color: rgb(201, 255, 158); border-bottom: 1px rgba(255, 255, 255, 0) solid;}
+.nombreJugador {position: inherit; width: 50px; height: 55px; border-right: 1px rgb(0, 0, 0) solid; border-bottom: 1px rgb(0, 0, 0) solid;}
+.lineaZonaEscribir {position: inherit;}
+#zonaEscribirLinea1 {top: 40px;}
+#zonaEscribirLinea2 {top: 96px;}
+#zonaEscribirLinea3 {top: 152px; background-color: rgb(201, 255, 158);}
+.escribirNombreJugador {position: inherit; width: 40px; border: 0.5px rgba(255,255,255,0) solid; border-bottom: 1px rgb(116, 116, 116) dotted; top: 35px; z-index: 1; background-color: rgba(255, 255, 255, 0); text-align: center; left: 2px;}
+.jugador {position: inherit; width: 50px; height: 70px;}
+.fotoJugador {position: inherit; width: 35px; left: 7.5px; top: 15px;}
+.selectorNumero {position: inherit; width: 35px; height: 35px; text-align: center; z-index: 1; border: 0px rgba(255,255,255,0) solid; left: 4.5px; top: 2px; font-size: 2em;}
+.selectorNumero3 {background-color: rgb(201, 255, 158);}
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {-webkit-appearance: none;margin: 0;}
+.selectorNumero:focus {outline: 2px rgb(23, 146, 23) solid; border-radius: 4px;}
+#nombreJugador3 {background-color: rgb(201, 255, 158); border-bottom: 1px rgb(201, 255, 158) solid;}
+.zonaEscribirLibre {position: inherit; left: 307px; height: 55px; width: 110px;}
+.zonaEscribirTextarea {position: inherit; height: 51px; width: 110px; resize: none; background-image: url(lupa.png); background-position: 35px; background-repeat: no-repeat; background-size: 50px 40px; border: 0px; border-bottom: 1px rgb(0, 0, 0) solid;}
+#zonaEscribirLibre3t {background-color: rgb(201, 255, 158); border-bottom: 1px rgb(201, 255, 158) solid;}
+.lineasJugadores {position: inherit;}
+.numerosJugadores {position: inherit; border-radius: 50%; height: 18px; width: 18px; text-align: center; vertical-align: middle; color: rgb(255,255,255); z-index: 2; font-family: serif;}
+.linea2 {position: inherit; background-color: rgb(119, 223, 35); width: 4px; height: 56px; top: 152px; left: 305px;}
+.linea3 {position: inherit; background-color: rgb(23, 146, 23);}
+.linea4 {position: inherit; background-color: rgb(0, 0, 0);}
+.letras {position: inherit; -webkit-text-stroke: 1px rgb(23, 146, 23); font-size: 60px; color: rgb(255,255,255); z-index: 2;}
